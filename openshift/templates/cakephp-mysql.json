@@ -374,7 +374,7 @@
                       "valueFrom": {
                         "secretKeyRef" : {
                           "name" : "${NAME}",
-                          "key" : "databaseUser"
+                          "key" : "database-user"
                         }
                       }
                     },
@@ -383,7 +383,7 @@
                       "valueFrom": {
                         "secretKeyRef" : {
                           "name" : "${NAME}",
-                          "key" : "databasePassword"
+                          "key" : "database-password"
                           }
                         }
                     },
