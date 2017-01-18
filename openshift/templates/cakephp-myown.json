@@ -16,17 +16,6 @@
   },
   "objects": [
     {
-      "kind": "Secret",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}"
-      },
-      "stringData" : {
-        "database-user" : "${DATABASE_USER}",
-        "database-password" : "${DATABASE_PASSWORD}"
-      }
-    },
-    {
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
@@ -223,21 +212,11 @@
                   },
                   {
                     "name": "DATABASE_USER",
-                    "valueFrom": {
-                      "secretKeyRef" : {
-                        "name" : "${NAME}",
-                        "key" : "database-user"
-                      }
-                    }
+                    "value": "${DATABASE_USER}"
                   },
                   {
                     "name": "DATABASE_PASSWORD",
-                    "valueFrom": {
-                      "secretKeyRef" : {
-                        "name" : "${NAME}",
-                        "key" : "database-password"
-                      }
-                    }
+                    "value": "${DATABASE_PASSWORD}"
                   },
                   {
                     "name": "CAKEPHP_SECRET_TOKEN",
@@ -279,7 +258,7 @@
       "spec": {
         "ports": [
           {
-            "name": "myownsql",
+            "name": "mysql",
             "port": 3306,
             "targetPort": 3306
           }
@@ -308,12 +287,12 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "myownsql"
+                "mysql"
               ],
               "from": {
                 "kind": "ImageStreamTag",
                 "namespace": "${NAMESPACE}",
-                "name": "mysql:5.7"
+                "name": "mysql:5.6"
               }
             }
           },
@@ -341,7 +320,7 @@
             ],
             "containers": [
               {
-                "name": "myownsql",
+                "name": "mysql",
                 "image": " ",
                 "ports": [
                   {
@@ -371,21 +350,11 @@
                 "env": [
                     {
                       "name": "MYSQL_USER",
-                      "valueFrom": {
-                        "secretKeyRef" : {
-                          "name" : "${NAME}",
-                          "key" : "database-user"
-                        }
-                      }
+                      "value": "${DATABASE_USER}"
                     },
                     {
                       "name": "MYSQL_PASSWORD",
-                      "valueFrom": {
-                        "secretKeyRef" : {
-                          "name" : "${NAME}",
-                          "key" : "database-password"
-                          }
-                        }
+                      "value": "${DATABASE_PASSWORD}"
                     },
                     {
                         "name": "MYSQL_DATABASE",
@@ -474,7 +443,7 @@
       "displayName": "Database Engine",
       "description": "Database engine: postgresql, mysql or sqlite (default).",
       "required": true,
-      "value": "myownsql"
+      "value": "mysql"
     },
     {
       "name": "DATABASE_NAME",
